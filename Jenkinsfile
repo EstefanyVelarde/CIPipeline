@@ -1,23 +1,9 @@
 pipeline {
-    agent {label "linux"}
-    options {
-        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr:'', numToKeepStr: '5')
-        disableConcurrentBuilds()
-    }
+    agent { docker { image 'maven:3.3.3' } }
     stages {
-        stage('Hello') {
+        stage('build') {
             steps {
-                echo 'Hello'
-            }
-        }
-        stage('cat README') {
-            when {
-                branch "fix-*"
-            }
-            steps {
-                sh '''
-                    cat README.md
-                '''
+                sh 'mvn --version'
             }
         }
     }
